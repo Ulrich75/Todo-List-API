@@ -1,0 +1,507 @@
+{
+	"info": {
+		"_postman_id": "7691f1a3-30a7-4b78-92de-73c24bf83aef",
+		"name": "TODO List API : CRUD",
+		"description": "# 🔖 Description\n\nAPI TODO List permet de gérer des tâches, de les assigner à des utilisateurs,  \nde modifier leur statut et de les récupérer par utilisateur. Elle suit les  \nconventions REST et utilise MongoDB pour stocker les données.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38903212"
+	},
+	"item": [
+		{
+			"name": "/tasks  - Ajouter une tâche",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Tâche n°1 ajoutée\",\r\n    \"description\": \"Ceci est la première tâche ajoutée .\",\r\n    \"due_date\" : \"2024-10-25\",\r\n    \"status\": \"en cours\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"tasks"
+					]
+				},
+				"description": "Crée une nouvelle tâche dans la base de données. Cette requête nécessite un corps JSON contenant le titre, la description, le status et éventuellement une date d'échéance. En cas de succès, l'ID de la tâche nouvellement créée est renvoyé.\n\n#### **Exemple du résultats :**\n\n``` json\n{\n    \"message\": \"Tâche créée avec succès\",\n    \"task_id\": \"670e7b03b86c7a4292bfec66\",\n    \"users\": [\n        {\n            \"email\": \"ulrich@example.com\",\n            \"name\": \"Ulrich\",\n            \"user_id\": \"670e528f7b5692cc93f01f35\"\n        },\n        {\n            \"email\": \"deo@example.com\",\n            \"name\": \"Deo\",\n            \"user_id\": \"670e528f7b5692cc93f01f36\"\n        },\n        {\n            \"email\": \"gracias@example.com\",\n            \"name\": \"Gracias\",\n            \"user_id\": \"670e528f7b5692cc93f01f37\"\n        }\n    ]\n}\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "/tasks/<task_id>   - Modifier une tâche",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Tâche 1 Modifiée\",\r\n    \"description\": \"Ceci est la 1 ère tâche, mise à jour.\"\r\n    \r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/tasks/670e59cab86c7a4292bfec64",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"tasks",
+						"670e59cab86c7a4292bfec64"
+					],
+					"query": [
+						{
+							"key": "task_id",
+							"value": null,
+							"description": "l'ID de la tâche est utilisé pour mettre à jour",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Modifie une tâche existante identifiée par son ID. Cette requête accepte un corps JSON qui peut contenir un titre, une description et un statut mis à jour. En cas de succès, un message confirmant  \nla mise à jour est renvoyé.\n\n#### Exemple :\n\n``` json\n{\n    \"message\": \"Tâche modifiée avec succès\"\n}\n\n ```"
+			},
+			"response": [
+				{
+					"name": "/tasks/<task_id>   - Modifier une tâche",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Tâche 1 Modifiée\",\r\n    \"description\": \"Ceci est la 1 ère tâche, mise à jour.\"\r\n    \r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/tasks/670e59cab86c7a4292bfec64",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"tasks",
+								"670e59cab86c7a4292bfec64"
+							],
+							"query": [
+								{
+									"key": "task_id",
+									"value": null,
+									"description": "l'ID de la tâche est utilisé pour mettre à jour",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.3.8 Python/3.9.20"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Oct 2024 12:03:24 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "56"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Tâche modifiée avec succès\"\n}"
+				}
+			]
+		},
+		{
+			"name": "/tasks/<task_id>/assign - Assigner une tâche à un utilisateur",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\": \"670e528f7b5692cc93f01f35\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/tasks/670e59cab86c7a4292bfec64/assign",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"tasks",
+						"670e59cab86c7a4292bfec64",
+						"assign"
+					],
+					"query": [
+						{
+							"key": "task_id",
+							"value": "",
+							"description": "l'ID de la tâche est utilisé pour assigner un utilisateur à une tâche",
+							"disabled": true
+						},
+						{
+							"key": "user_id",
+							"value": null,
+							"description": "l'ID de l'utilisateur est spécifié dans le body",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "/tasks/<task_id>/assign - Assigner une tâche à un utilisateur",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": \"670e528f7b5692cc93f01f35\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/tasks/670e59cab86c7a4292bfec64/assign",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"tasks",
+								"670e59cab86c7a4292bfec64",
+								"assign"
+							],
+							"query": [
+								{
+									"key": "task_id",
+									"value": "",
+									"description": "l'ID de la tâche est utilisé pour assigner un utilisateur à une tâche",
+									"disabled": true
+								},
+								{
+									"key": "user_id",
+									"value": null,
+									"description": "l'ID de l'utilisateur est spécifié dans le body",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.3.8 Python/3.9.20"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Oct 2024 12:04:50 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "56"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Utilisateur assigné avec succès\"\n}"
+				}
+			]
+		},
+		{
+			"name": "/tasks/<task_id>/status - Modifier le status",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"terminé\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/tasks/670e59cab86c7a4292bfec64/status",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"tasks",
+						"670e59cab86c7a4292bfec64",
+						"status"
+					],
+					"query": [
+						{
+							"key": "task_id",
+							"value": null,
+							"description": "l'ID de la tâche est utilisé pour modifier le status d'une tâche",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Change le statut d'une tâche existante spécifiée par son ID. Cette requête nécessite un corps JSON contenant le nouveau statut de la tâche. En cas de succès, un message confirmant la mise à jour du statut est renvoyé.\n\n#### Exemple :\n\n``` json\n{\n    \"message\": \"Statut de la tâche mis à jour\"\n}\n\n ```"
+			},
+			"response": [
+				{
+					"name": "/tasks/<task_id>/status - Modifier le status",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"terminé\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/tasks/670e59cab86c7a4292bfec64/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"tasks",
+								"670e59cab86c7a4292bfec64",
+								"status"
+							],
+							"query": [
+								{
+									"key": "task_id",
+									"value": null,
+									"description": "l'ID de la tâche est utilisé pour modifier le status d'une tâche",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.3.8 Python/3.9.20"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Oct 2024 13:30:48 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "54"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Statut de la tâche mis à jour\"\n}"
+				}
+			]
+		},
+		{
+			"name": "/tasks/user/<user_id> -Récuperer les tâches associé à un utilisateur",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/tasks/user/670e528f7b5692cc93f01f35",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"tasks",
+						"user",
+						"670e528f7b5692cc93f01f35"
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": null,
+							"description": "l'ID del'utilisateur est utilisé pour récupérer les tâches qui lui sont assignées",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Récupère les tâches existante assignées à un utilisateurs par l'iD des utilisateurs. En cas de succès, une liste des différentes tâches assignées est renvoyée.\n\n#### Exemple :\n\n``` json\n[\n    {\n        \"assigned_to\": \"670e528f7b5692cc93f01f35\",\n        \"description\": \"Ceci est la 1 ère tâche, mise à jour.\",\n        \"due_date\": \"2024-10-25\",\n        \"status\": \"terminé\",\n        \"task_id\": \"670e59cab86c7a4292bfec64\",\n        \"title\": \"Tâche 1 Modifiée\"\n    }\n]\n\n ```"
+			},
+			"response": [
+				{
+					"name": "/tasks/user/<task_id> -Récuperer les tâches associé à un utilisateur",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Tâche n°1 ajoutée\",\r\n    \"description\": \"Ceci est la première tâche ajoutée .\",\r\n    \"due_date\" : \"2024-10-25\",\r\n    \"status\": \"en cours\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/tasks/user/670e528f7b5692cc93f01f35",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"tasks",
+								"user",
+								"670e528f7b5692cc93f01f35"
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": null,
+									"description": "l'ID del'utilisateur(user_id) est utilisé pour récupérer les tâches qui lui sont assignées",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.3.8 Python/3.9.20"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 15 Oct 2024 13:31:53 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "236"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"assigned_to\": \"670e528f7b5692cc93f01f35\",\n        \"description\": \"Ceci est la 1 ère tâche, mise à jour.\",\n        \"due_date\": \"2024-10-25\",\n        \"status\": \"terminé\",\n        \"task_id\": \"670e59cab86c7a4292bfec64\",\n        \"title\": \"Tâche 1 Modifiée\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "/tasks/<task_id> - Supprimer une tâche",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/tasks/670e6f66b86c7a4292bfec65",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"tasks",
+						"670e6f66b86c7a4292bfec65"
+					]
+				},
+				"description": "Suprimer une tâche existante par son ID ."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "base_url",
+			"value": "https://postman-rest-api-learner.glitch.me/"
+		}
+	]
+}

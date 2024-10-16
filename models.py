@@ -29,7 +29,7 @@ def get_all_users(db):
 def create_task_in_db(db, data):
 
     """
-    Cette fonction pour créer une nouvelle tâche
+    Cette fonction permet de créer de nouvelle tâche
     """
     task = {
         'title': data['title'],

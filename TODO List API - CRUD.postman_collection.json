@@ -51,7 +51,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/tasks/670e59cab86c7a4292bfec64",
+					"raw": "http://localhost:5000/task/670e59cab86c7a4292bfec64",
 					"protocol": "http",
 					"host": [
 						"localhost"

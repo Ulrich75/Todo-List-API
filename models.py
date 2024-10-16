@@ -82,7 +82,7 @@ def update_status_in_db(db, task_id, status):
 
 def assign_user_to_task_in_db(db, task_id, user_id):
     """
-    L'objectif de cette fonction est d'assigner un utilisateur à une tâche
+    L'objectif de cette fonction est d'assigner une tâche à un utilisateur 
     """
     db.tasks.update_one({'_id': ObjectId(task_id)}, {'$set': {'assigned_to': user_id}})
 
